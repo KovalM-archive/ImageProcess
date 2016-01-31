@@ -27,7 +27,7 @@ public class ImageFilter implements IImageFilter {
         int row, column, rgb;
         int rSum, gSum, bSum;
         rSum=gSum=bSum=0;
-        Color c;
+        Color currentPixel;
 
         row = 0;
         x = i - getMatrixSize()/2;
@@ -36,10 +36,10 @@ public class ImageFilter implements IImageFilter {
             column = 0;
             while (y <= j + getMatrixSize()/2){
                 if (inBorder(x, y, inputImage.getWidth(), inputImage.getHeight())){
-                    c = new Color(inputImage.getRGB(x, y));
-                    rSum += c.getRed()*matrixFilter[row][column];
-                    gSum +=c.getGreen()*matrixFilter[row][column];
-                    bSum += c.getBlue()*matrixFilter[row][column];
+                    currentPixel = new Color(inputImage.getRGB(x, y));
+                    rSum += currentPixel.getRed()*matrixFilter[row][column];
+                    gSum +=currentPixel.getGreen()*matrixFilter[row][column];
+                    bSum += currentPixel.getBlue()*matrixFilter[row][column];
                 }
                 y++;
                 column++;
@@ -83,6 +83,7 @@ public class ImageFilter implements IImageFilter {
             return x;
         }
     }
+
     private boolean inBorder(int x, int y, int width, int height){
         return (x>=0 && x<width && y>=0 && y<height);
     }
