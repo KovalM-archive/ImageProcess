@@ -1,3 +1,5 @@
+package filter;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
@@ -5,6 +7,12 @@ public class ImageFilter implements IImageFilter {
     private int [][] matrixFilter;
     private int matrixSize;
     private int divider;
+
+    public ImageFilter(int [][] matrixFilter, int matrixSize, int divider){
+        setMatrixSize(matrixSize);
+        setMatrixFilter(matrixFilter);
+        setDivider(divider);
+    }
 
     public ImageFilter(int [][] matrixFilter, int matrixSize){
         setMatrixSize(matrixSize);
@@ -59,6 +67,12 @@ public class ImageFilter implements IImageFilter {
         return outputImage;
     }
 
+    @Override
+    public BufferedImage applyFilter(BufferedImage inputImage, int divider) {
+        setDivider(divider);
+        return applyFilter(inputImage);
+    }
+
 
     public int clumb(int x){
         if (x<0){
@@ -85,7 +99,7 @@ public class ImageFilter implements IImageFilter {
     }
 
     public void setDivider(int divider) {
-        if (divider >0){
+        if (divider > 0){
             this.divider = divider;
         }
     }

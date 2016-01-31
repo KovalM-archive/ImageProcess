@@ -1,3 +1,7 @@
+import filter.FilterFactory;
+import filter.IFilterFactory;
+import filter.IImageFilter;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,25 +11,24 @@ public class ImageProcess {
     public ImageProcess(String imagePath){
         File f = new File(imagePath);
         BufferedImage inputImage;
+        IFilterFactory filterFactory = new FilterFactory();
 
-        ImageFilter filter1 = FilterFactory.createFilter("source/filters/filter1.txt");
-        ImageFilter filter2 = FilterFactory.createFilter("source/filters/filter2.txt");
-        ImageFilter filter3 = FilterFactory.createFilter("source/filters/filter3.txt");
+        IImageFilter filter1 = filterFactory.createFilter("source/filters/filter1.txt");
+        IImageFilter filter2 = filterFactory.createFilter("source/filters/filter2.txt");
+        IImageFilter filter3 = filterFactory.createFilter("source/filters/filter3.txt");
 
-        filter2.setDivider(1);
         try {
             inputImage = ImageIO.read(f);
-            createImageByFilter("source/image/output/output1_filter1.png", inputImage, filter1);
-            createImageByFilter("source/image/output/output1_filter2.png", inputImage, filter2);
-            createImageByFilter("source/image/output/output1_filter3.png", inputImage, filter3);
+            writeImage("source/image/output/output1_filter1.png", filter1.applyFilter(inputImage));
+            writeImage("source/image/output/output1_filter2.png", filter2.applyFilter(inputImage));
+            writeImage("source/image/output/output1_filter3.png", filter3.applyFilter(inputImage));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void createImageByFilter(String outputPath, BufferedImage inputImage, ImageFilter filter){
-        BufferedImage outputImage = filter.applyFilter(inputImage);
+    public void writeImage(String outputPath, BufferedImage outputImage){
         try {
             ImageIO.write(outputImage, "png", new File(outputPath));
         } catch (IOException e) {
