@@ -10,8 +10,9 @@ import java.io.IOException;
 
 public class ImageProcess {
     public ImageProcess(String imagePath){
-        File f = new File(imagePath);
-        BufferedImage inputImage;
+        File file1 = new File(imagePath);
+        File file2 = new File("source/image/input/input2.jpg");
+        BufferedImage inputImage1, inputImage2;
         IFilterFactory filterFactory = new FilterFactory();
 
         IImageFilter filter1 = filterFactory.createFilter("source/filters/filter1.txt");
@@ -19,12 +20,12 @@ public class ImageProcess {
         IImageFilter filter3 = filterFactory.createFilter("source/filters/filter3.txt");
 
         try {
-            inputImage = ImageIO.read(f);
-//            writeImage("source/image/output/output1_filter1.png", filter1.applyFilter(inputImage));
-//            writeImage("source/image/output/output1_filter2.png", filter2.applyFilter(inputImage));
-//            writeImage("source/image/output/output1_filter3.png", filter3.applyFilter(inputImage));
-            writeImage("source/image/output/anaglyph.png", createAnaglyph(inputImage));
-
+            inputImage1 = ImageIO.read(file1);
+            inputImage2 = ImageIO.read(file2);
+//            writeImage("source/image/output/output1_filter1.png", filter1.applyFilter(inputImage1));
+//            writeImage("source/image/output/output1_filter2.png", filter2.applyFilter(inputImage1));
+//            writeImage("source/image/output/output1_filter3.png", filter3.applyFilter(inputImage1));
+            writeImage("source/image/output/anaglyph.png", createAnaglyph(inputImage2));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,18 +40,38 @@ public class ImageProcess {
     }
 
     public BufferedImage createAnaglyph(BufferedImage inputImage){
-        BufferedImage outputImage = null;
-        BufferedImage leftImage = removeColor(removeColor(inputImage, ImageConstants.GREEN), ImageConstants.BLUE);
-        BufferedImage rightImage = removeColor(inputImage, ImageConstants.RED);
-
+        BufferedImage outputImage;
+        BufferedImage leftImage = getRectangleOfImage(inputImage, 0, 0,
+                inputImage.getWidth()/2, inputImage.getHeight());
+        BufferedImage rightImage = getRectangleOfImage(inputImage, inputImage.getWidth()/2, 0,
+                inputImage.getWidth(), inputImage.getHeight());
         outputImage = overlayImages(leftImage, rightImage);
+        return outputImage;
+    }
+
+    public BufferedImage getRectangleOfImage(BufferedImage inputImage, int startX, int startY,
+                                             int finishX, int finishY){
+        BufferedImage outputImage = null;
+        if (startX>=0 && startY>=0 && finishX<=inputImage.getWidth() && finishY<=inputImage.getHeight()){
+            outputImage = new BufferedImage(finishX-startX, finishY-startY, BufferedImage.TYPE_INT_ARGB);
+            int x, y;
+            x=0;
+            for (int i = startX; i < finishX; i++) {
+                y=0;
+                for (int j = startY; j < finishY; j++) {
+                    outputImage.setRGB(x, y, inputImage.getRGB(i, j));
+                    y++;
+                }
+                x++;
+            }
+        }
+
         return outputImage;
     }
 
     public BufferedImage overlayImages(BufferedImage leftImage, BufferedImage rightImage){
         BufferedImage outputImage = new BufferedImage(leftImage.getWidth() + ImageConstants.SHIFT,
-                leftImage.getHeight(),
-                BufferedImage.TYPE_INT_ARGB);
+                leftImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Color leftPixel, rightPixel;
         int r, g, b;
 
@@ -65,9 +86,9 @@ public class ImageProcess {
                 } else{
                     rightPixel = new Color(rightImage.getRGB(i, j));
                     leftPixel = new Color(leftImage.getRGB(i-ImageConstants.SHIFT, j));
-                    r = 1 - (1 - leftPixel.getRed())*(1 - rightPixel.getRed());
-                    g = 1 - (1 - leftPixel.getGreen())*(1 - rightPixel.getGreen());
-                    b = 1 - (1 - leftPixel.getBlue())*(1 - rightPixel.getBlue());
+                    r = leftPixel.getRed();
+                    g = rightPixel.getGreen();
+                    b = rightPixel.getBlue();
                     outputImage.setRGB(i, j, new Color(r, g, b).getRGB());
                 }
             }

@@ -3,5 +3,5 @@ public interface ImageConstants {
     String GREEN = "green";
     String BLUE = "blue";
 
-    int SHIFT = 10;
+    int SHIFT = 20;
 }
