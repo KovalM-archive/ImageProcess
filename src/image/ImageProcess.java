@@ -1,6 +1,8 @@
-import filter.FilterFactory;
-import filter.IFilterFactory;
-import filter.IImageFilter;
+package image;
+
+import image.filter.FilterFactory;
+import image.filter.IFilterFactory;
+import image.filter.IImageFilter;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
@@ -11,7 +13,7 @@ import java.io.IOException;
 public class ImageProcess {
     public ImageProcess(String imagePath){
         File file1 = new File(imagePath);
-        File file2 = new File("source/image/input/input2.jpg");
+        File file2 = new File(imagePath);
         BufferedImage inputImage1, inputImage2;
         IFilterFactory filterFactory = new FilterFactory();
 
@@ -22,9 +24,9 @@ public class ImageProcess {
         try {
             inputImage1 = ImageIO.read(file1);
             inputImage2 = ImageIO.read(file2);
-//            writeImage("source/image/output/output1_filter1.png", filter1.applyFilter(inputImage1));
-//            writeImage("source/image/output/output1_filter2.png", filter2.applyFilter(inputImage1));
-//            writeImage("source/image/output/output1_filter3.png", filter3.applyFilter(inputImage1));
+            writeImage("source/image/output/output1_filter1.png", filter1.applyFilter(inputImage1));
+            writeImage("source/image/output/output1_filter2.png", filter2.applyFilter(inputImage1));
+            writeImage("source/image/output/output1_filter3.png", filter3.applyFilter(inputImage1));
             writeImage("source/image/output/anaglyph.png", createAnaglyph(inputImage2));
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,7 +87,7 @@ public class ImageProcess {
                     outputImage.setRGB(i, j, leftPixel.getRGB());
                 } else{
                     rightPixel = new Color(rightImage.getRGB(i, j));
-                    leftPixel = new Color(leftImage.getRGB(i-ImageConstants.SHIFT, j));
+                    leftPixel = new Color(leftImage.getRGB(i- ImageConstants.SHIFT, j));
                     r = leftPixel.getRed();
                     g = rightPixel.getGreen();
                     b = rightPixel.getBlue();

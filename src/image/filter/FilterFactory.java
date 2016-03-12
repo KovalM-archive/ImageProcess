@@ -1,4 +1,4 @@
-package filter;
+package image.filter;
 
 import java.io.File;
 import java.io.FileNotFoundException;

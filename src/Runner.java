@@ -1,5 +1,9 @@
+import view.MainWindow;
+
+import javax.swing.SwingUtilities;
+
 public class Runner {
     public static void main(String[] args) {
-        new ImageProcess("source/image/input/input1.png");
+        SwingUtilities.invokeLater(() -> new MainWindow());
     }
 }

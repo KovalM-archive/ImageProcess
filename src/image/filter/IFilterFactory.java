@@ -1,4 +1,4 @@
-package filter;
+package image.filter;
 
 
 public interface IFilterFactory {
