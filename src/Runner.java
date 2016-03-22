@@ -1,4 +1,4 @@
-import view.MainWindow;
+import process.view.MainWindow;
 
 import javax.swing.SwingUtilities;
 
