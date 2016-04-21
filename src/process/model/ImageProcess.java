@@ -18,6 +18,14 @@ public class ImageProcess {
         return getSegmentationProcessor().createSegmentation(inputImage, distance);
     }
 
+    public BufferedImage createRotation(BufferedImage inputImage, double distance){
+        return getProcessUtil().createRotationImage(inputImage, distance);
+    }
+
+    public BufferedImage createScalabilityImage(BufferedImage inputImage, double scalability){
+        return getProcessUtil().createScalabilityImage(inputImage, scalability);
+    }
+
     public BufferedImage filterImage(BufferedImage inputImage){
         IFilterFactory filterFactory = new FilterFactory();
         IImageFilter filter = filterFactory.createFilter("source/filters/filter1.txt");

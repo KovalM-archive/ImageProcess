@@ -118,4 +118,62 @@ public class ImageProcessUtil implements ImageConstants {
         }
         return outputImage;
     }
+
+    /**
+     * Create scalability image
+     * @param inputImage input image
+     * @param scalability scalability
+     * @return scalability image
+     */
+    public BufferedImage createScalabilityImage(BufferedImage inputImage, double scalability){
+        int width = (int)(inputImage.getWidth()*scalability);
+        int height = (int)(inputImage.getHeight()*scalability);
+        BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        int x, y;
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                x = (int)(i/scalability);
+                y = (int)(j/scalability);
+                outputImage.setRGB(i, j, inputImage.getRGB(x, y));
+            }
+        }
+        return outputImage;
+    }
+
+    /**
+     * Create rotation image
+     * @param inputImage input image
+     * @param angle angle
+     * @return scalability image
+     */
+    public BufferedImage createRotationImage(BufferedImage inputImage, double angle){
+        int width = (int)(Math.sqrt(Math.pow(inputImage.getWidth(), 2) + Math.pow(inputImage.getHeight(), 2)));
+        int height = width;
+        int gap = (width - inputImage.getWidth())/2;
+        BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        int x0, y0, x1, y1, x, y, xx, yy;
+        Color whiteColor = new Color(255,255,255);
+
+        angle = Math.toRadians(angle);
+        x0 = inputImage.getWidth()/2;
+        y0 = inputImage.getHeight()/2;
+        x1 = width/2;
+        y1 = height/2;
+        for (int i = 0; i < outputImage.getWidth(); i++) {
+            for (int j = 0; j < outputImage.getHeight(); j++) {
+                x = i - x1;
+                y = j - y1;
+                xx = (int) Math.round(x * Math.cos(angle) + y * Math.sin(angle)) + x0;
+                yy = (int) Math.round(y * Math.cos(angle) - x * Math.sin(angle)) + y0;
+                if (xx>0 && yy>0 && xx<inputImage.getWidth() && yy<inputImage.getHeight()){
+                    outputImage.setRGB(i, j, inputImage.getRGB(xx, yy));
+                } else {
+                    outputImage.setRGB(i, j, whiteColor.getRGB());
+                }
+            }
+        }
+
+        return outputImage;
+    }
 }

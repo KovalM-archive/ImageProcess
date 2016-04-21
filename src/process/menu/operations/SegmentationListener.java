@@ -21,7 +21,6 @@ public class SegmentationListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//        distance = Integer.parseInt(JOptionPane.showInputDialog("Input segmentation degree:"));
         showHorizontalSliderDialog(0, 250, 100, "Input segmentation degree:");
 
     }

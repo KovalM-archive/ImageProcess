@@ -28,6 +28,7 @@ public class OpenMenuListener implements ActionListener {
                 lastDirectory = chooser.getSelectedFile().getPath();
                 BufferedImage sourceImage = ImageIO.read(new File(lastDirectory));
                 getProcessController().getImagePanel().setSourceImage(sourceImage);
+                getProcessController().getImagePanel().setReserveSourceImage(sourceImage);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

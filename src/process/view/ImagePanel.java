@@ -3,14 +3,15 @@ package process.view;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import javax.swing.JScrollPane;
 import java.awt.image.BufferedImage;
 
 public class ImagePanel extends JPanel{
     private JLabel sourceImageLabel;
     private JLabel resultImageLabel;
     private BufferedImage sourceImage;
+    private BufferedImage reserveResultImage;
+    private BufferedImage reserveSourceImage;
     private BufferedImage resultImage;
     private int imageWidth;
     private int imageHeight;
@@ -19,15 +20,20 @@ public class ImagePanel extends JPanel{
         setImageWidth(imageWidth);
         setImageHeight(imageHeight);
         setSize(imageWidth*2, imageHeight);
-        setLayout(new BorderLayout());
-
+        setLayout(null);
         sourceImageLabel = new JLabel();
-        sourceImageLabel.setMaximumSize(new Dimension(imageWidth, imageHeight));
-        add(sourceImageLabel, BorderLayout.WEST);
+        JScrollPane scrollLeft = new JScrollPane(sourceImageLabel);
+        scrollLeft.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollLeft.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollLeft.setBounds(0, 0, imageWidth, imageHeight);
+        add(scrollLeft);
 
         resultImageLabel = new JLabel();
-        resultImageLabel.setMaximumSize(new Dimension(imageWidth, imageHeight));
-        add(resultImageLabel, BorderLayout.EAST);
+        JScrollPane scrollRight = new JScrollPane(resultImageLabel);
+        scrollRight.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollRight.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollRight.setBounds(imageWidth + 1, 0, imageWidth, imageHeight);
+        add(scrollRight);
     }
 
     public JLabel getSourceImageLabel() {
@@ -78,5 +84,21 @@ public class ImagePanel extends JPanel{
     public void setResultImage(BufferedImage resultImage) {
         getResultImageLabel().setIcon(new ImageIcon(resultImage));
         this.resultImage = resultImage;
+    }
+
+    public BufferedImage getReserveResultImage() {
+        return reserveResultImage;
+    }
+
+    public void setReserveResultImage(BufferedImage reserveResultImage) {
+        this.reserveResultImage = reserveResultImage;
+    }
+
+    public BufferedImage getReserveSourceImage() {
+        return reserveSourceImage;
+    }
+
+    public void setReserveSourceImage(BufferedImage reserveSourceImage) {
+        this.reserveSourceImage = reserveSourceImage;
     }
 }

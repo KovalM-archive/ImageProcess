@@ -77,8 +77,15 @@ public class MainWindow implements ViewConstants {
         mainFrame.add(fileToolbar, BorderLayout.NORTH);
 
         ImagePanel imagePanel = new ImagePanel(IMAGE_WIDTH, IMAGE_HEIGHT);
-        mainFrame.add(imagePanel, BorderLayout.CENTER);
         ImageProcessController processController = new ImageProcessController(new ImageProcess(), imagePanel);
+
+        ChooseScalabilityPanel scalabilityPanel = new ChooseScalabilityPanel(processController, 0, 400, 100);
+        scalabilityPanel.setBounds(0, IMAGE_HEIGHT+1, 300, 100);
+        ChooseRotationPanel rotationPanel = new ChooseRotationPanel(processController, 0, 360, 0);
+        rotationPanel.setBounds(301, IMAGE_HEIGHT+1, 200, 100);
+        imagePanel.add(rotationPanel);
+        imagePanel.add(scalabilityPanel);
+        mainFrame.add(imagePanel, BorderLayout.CENTER);
 
         SaveMenuListener saveTable = new SaveMenuListener(processController);
         saveButton.addActionListener(saveTable);

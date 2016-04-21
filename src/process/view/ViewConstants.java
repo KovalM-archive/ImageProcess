@@ -1,8 +1,8 @@
 package process.view;
 
 public interface ViewConstants {
-    int IMAGE_WIDTH = 200;
-    int IMAGE_HEIGHT = 200;
+    int IMAGE_WIDTH = 500;
+    int IMAGE_HEIGHT = 500;
 
     String APPLICATION_NAME = "Image Processor";
     String FILE = "File";
@@ -13,6 +13,7 @@ public interface ViewConstants {
     String FILTERS = "Filters";
     String ANAGLYPH = "Anaglyph";
     String SEGMENTATION = "Segmentation";
+    String SCALABILITY = "Scalability";
 
     String SEARCH_TOOLBAR_EDIT = "source/view/toolbarEdit/search.png";
     String ADDITIION_TOOLBAR_EDIT = "source/view/toolbarEdit/addition.png";
